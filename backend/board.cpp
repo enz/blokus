@@ -162,21 +162,22 @@ public:
     int nmove;
 };
 
-int Board::movables(Move* movables)
+int Board::movables(Move* movables, bool filter)
 {
     MoveCollector collector(movables);
-    each_movable(&collector);
+    each_movable(&collector, filter);
     return collector.nmove;
 }
 
-bool Board::each_movable(MovableVisitor* visitor)
+bool Board::each_movable(MovableVisitor* visitor, bool filter)
 {
     if (turn() < 2) {
 	const unsigned short *move = (turn() == 0) ?
 	    violet_first_moves : orange_first_moves;
 	for (; *move; move++) {
 	    Move m(*move);
-	    if (move_filter(block_set[m.block_id()]->
+        if (!filter
+            || move_filter(block_set[m.block_id()]->
 			    rotations[m.direction()].piece))
 	    {
 		if (!visitor->visit_move(m))
@@ -216,7 +217,7 @@ bool Board::each_movable(MovableVisitor* visitor)
 	    continue;
 	Block* block = block_set[blk];
 	for (Piece **variation = block->variations; *variation; variation++) {
-	    if (!move_filter(*variation))
+        if (filter && !move_filter(*variation))
 		continue;
 	    short checked[YSIZE];
 	    memset(checked, 0, sizeof(checked));

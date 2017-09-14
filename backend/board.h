@@ -55,8 +55,8 @@ public:
     bool is_valid_move(Move move);
     void do_move(Move move);
     void do_pass() { turn_++; }
-    int movables(Move* movables);
-    bool each_movable(MovableVisitor* visitor);
+    int movables(Move* movables, bool filter = true);
+    bool each_movable(MovableVisitor* visitor, bool filter = true);
     Board child(Move move) {
 	Board c(*this);
 	c.do_move(move);
