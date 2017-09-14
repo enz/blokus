@@ -1,0 +1,5 @@
+GTP interface for using the engine as a test opponent using the twogtp
+tool included in the Pentobi sources (https://pentobi.sourceforge.io).
+
+The files in libboardgame_gtp are copied from Pentobi and licensed under
+the GNU General Public License version 3 or later (see COPYING).
